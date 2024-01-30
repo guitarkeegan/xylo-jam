@@ -11,25 +11,5 @@
       <img id="hero" src="/static/images/prac-room-fs8.png" alt="a hallway leading to a practice room">
     <script src="/static/js/script.js">
     </script>
-    <script type="text/javascript">
-        var socket = new WebSocket("ws://localhost:8080/ws");
-
-        socket.onopen = function(event) {
-            console.log("Connected to WebSocket");
-            socket.send("Hello, server!");
-        };
-
-        socket.onmessage = function(event) {
-            console.log("Received message: " + event.data);
-        };
-
-        socket.onerror = function(error) {
-            console.log("WebSocket Error: " + error);
-        };
-
-        socket.onclose = function(event) {
-            console.log("WebSocket connection closed");
-        };
-    </script>
   </body>
 </html>
