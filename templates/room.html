@@ -15,11 +15,32 @@
         const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
         document.addEventListener('keydown', function(evt){
-            if (evt.key === "a") {
-                playNote(220);
-            } else if (evt.key === "c") {
-                playNote(264);
-            }
+            switch (evt.key) {
+                    case "c":
+                        playNote(130.81); // C3
+                        break;
+                    case "d":
+                        playNote(146.83); // D3
+                        break;
+                    case "e":
+                        playNote(164.81); // E3
+                        break;
+                    case "f":
+                        playNote(174.61); // F3
+                        break;
+                    case "g":
+                        playNote(196.00); // G3
+                        break;
+                    case "a":
+                        playNote(220.00); // A3
+                        break;
+                    case "b":
+                        playNote(246.94); // B3
+                        break;
+                    // Optionally, add a default case if needed
+                    default:
+                        console.log("Key not mapped to a note.");
+                }
         });
 
         function playNote(note){
@@ -30,7 +51,7 @@
 
             // Create a GainNode
             const gainNode = audioCtx.createGain();
-            gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime); // Set volume level
+            gainNode.gain.setValueAtTime(0.3, audioCtx.currentTime); // Set volume level
 
             // Connect the oscillator to the gain node and the gain node to the AudioContext's destination
             oscillator.connect(gainNode);
