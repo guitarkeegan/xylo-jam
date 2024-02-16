@@ -8,6 +8,39 @@
     </head>
     <body>
         <h1>Welcome to {{ .Name }}</h1>
+        <p>press a or c to play a sign wave</p>
+
+    <script>
+        // Create an instance of AudioContext
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+        document.addEventListener('keydown', function(evt){
+            if (evt.key === "a") {
+                playNote(220);
+            } else if (evt.key === "c") {
+                playNote(264);
+            }
+        });
+
+        function playNote(note){
+            // Create an OscillatorNode
+            const oscillator = audioCtx.createOscillator();
+            oscillator.type = 'sine'; // Type of wave: sine, square, sawtooth, triangle
+            oscillator.frequency.setValueAtTime(note, audioCtx.currentTime); // Set frequency (A4 note)
+
+            // Create a GainNode
+            const gainNode = audioCtx.createGain();
+            gainNode.gain.setValueAtTime(0.5, audioCtx.currentTime); // Set volume level
+
+            // Connect the oscillator to the gain node and the gain node to the AudioContext's destination
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+
+            // Start the oscillator and stop it after 1 second
+            oscillator.start();
+            oscillator.stop(audioCtx.currentTime + .5); // Play for 1 second
+        }
+    </script>
         <script type="text/javascript">
             var socket = new WebSocket("ws://localhost:8080/ws");
 
