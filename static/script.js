@@ -7,6 +7,7 @@ ws.onopen = function() {
 
 ws.onmessage = function(event) {
     const message = JSON.parse(event.data);
+    console.log("msg from server: " + message);
     handleWebSocketMessage(message);
 };
 
@@ -21,6 +22,20 @@ function handleWebSocketMessage(message) {
         stopNote(message.note);
     }
 }
+
+function sendMessage(action, note) {
+    const message = {
+        action: action,
+        note: note
+    };
+
+    // Convert the message object to a JSON string
+    const messageString = JSON.stringify(message);
+
+    // Send the JSON string to the server over the WebSocket connection
+    ws.send(messageString);
+}
+
 
 // Check if AudioContext is supported
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
@@ -66,6 +81,7 @@ function playNote (key) {
     activeOscillators[key] = osc;
     updateMasterGain();
     updateNoteDisplay(key, true); // Add this line
+    sendMessage('play', key); // 
 }
 
 function stopNote (key) {
@@ -75,6 +91,7 @@ function stopNote (key) {
         delete activeOscillators[key];
         updateMasterGain();
         updateNoteDisplay(key, false); // Add this line
+        sendMessage('stop', key); // 
     }
 }
 

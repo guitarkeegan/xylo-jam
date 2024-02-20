@@ -47,11 +47,11 @@ func handleConnections(w http.ResponseWriter, r *http.Request) {
 
 	// Register the new client
 	clients[ws] = true
-
 	for {
 		var msg Message
 		// Read a new message as JSON
 		err := ws.ReadJSON(&msg)
+		log.Println(msg)
 		if err != nil {
 			log.Printf("error: %v", err)
 			delete(clients, ws)
